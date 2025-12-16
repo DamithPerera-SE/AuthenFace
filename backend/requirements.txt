@@ -4,3 +4,5 @@ opencv-contrib-python
 numpy
 Pillow
 SQLAlchemy
+pip install opencv-python opencv-contrib-python
+
