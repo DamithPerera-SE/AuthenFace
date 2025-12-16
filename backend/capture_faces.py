@@ -7,14 +7,11 @@ cam = cv2.VideoCapture(0)
 
 name = input("Enter User Name: ")
 
-# ✅ FIX: APP CONTEXT
 with app.app_context():
     user = User(name=name)
     db.session.add(user)
     db.session.commit()
     user_id = user.id
-
-print(f"User ID: {user_id}")
 
 path = f"dataset/User.{user_id}"
 os.makedirs(path, exist_ok=True)
@@ -38,5 +35,4 @@ while True:
 
 cam.release()
 cv2.destroyAllWindows()
-
 print("Face capture complete")
