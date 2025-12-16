@@ -1,0 +1,26 @@
+FaceLock – Face Detection Based Lock System
+Overview
+
+FaceLock is a real-time face recognition based lock system built using Python and OpenCV. It allows secure access by detecting and recognizing authorized users’ faces via a webcam. This system can be extended to control physical locks, doors, or computer access.
+
+Features
+
+Real-time face detection using OpenCV’s Haar Cascade classifier.
+
+Face recognition using LBPH (Local Binary Patterns Histogram) algorithm.
+
+Supports multiple authorized users.
+
+Displays lock/unlock status visually.
+
+Can be extended to physical access control systems.
+
+Technologies Used
+
+Python 3.x
+
+OpenCV (opencv-python and opencv-contrib-python)
+
+NumPy
+
+PIL (Python Imaging Library)
