@@ -9,8 +9,11 @@ app = Flask(__name__)
 CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
+# ---------------- MODEL ----------------
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
@@ -18,21 +21,32 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
-@app.route('/recognize', methods=['POST'])
+# ---------------- ROUTES ----------------
+@app.route("/")
+def home():
+    return "AuthenFace Backend Running"
+
+@app.route("/recognize", methods=["POST"])
 def recognize():
-    data = request.json
-    if not data or 'image' not in data:
+    data = request.get_json()
+
+    if not data or "image" not in data:
         return jsonify({"result": "DENIED"})
 
-    image_bytes = base64.b64decode(data['image'])
-    np_img = np.frombuffer(image_bytes, np.uint8)
-    img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
+    try:
+        image_bytes = base64.b64decode(data["image"])
+        np_img = np.frombuffer(image_bytes, np.uint8)
+        img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
 
-    if img is None:
-        return jsonify({"result": "DENIED"})
+        if img is None:
+            return jsonify({"result": "DENIED"})
 
-    # TEMP LOGIC (replace with real face recognition)
-    return jsonify({"result": "AUTHORIZED"})
+        # TEMP AUTH LOGIC
+        return jsonify({"result": "AUTHORIZED"})
 
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# ---------------- RUN ----------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=True)
